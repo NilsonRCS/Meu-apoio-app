@@ -35,3 +35,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Adicionado para garantir que arquivos de build temporários não sejam versionados
+src/**/*.js
+src/**/*.js.map
