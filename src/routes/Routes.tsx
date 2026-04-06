@@ -1,40 +1,26 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeFeature from '../features/home';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthFeature from '../features/auth';
-import ProfileFeature from '../features/profile';
+import AppTabs from './AppTabs';
+import { useAuthStore } from '../store/authStore';
 
-const Tab = createBottomTabNavigator();
-const isFooterVisible = false;
+const Stack = createNativeStackNavigator();
 
 const Routes = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Auth"
-        screenOptions={{
-          headerShown: false,
-          ...(isFooterVisible
-            ? {
-                tabBarActiveTintColor: '#708238',
-                tabBarInactiveTintColor: 'gray',
-                tabBarStyle: {
-                  borderTopWidth: 0,
-                  elevation: 0,
-                },
-              }
-            : {
-                tabBarStyle: { display: 'none' },
-              }),
-        }}
-      >
-        <Tab.Screen name="Auth" component={AuthFeature} />
-        <Tab.Screen name="Home" component={HomeFeature} />
-        <Tab.Screen name="Profile" component={ProfileFeature} />
-      </Tab.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isAuthenticated ? (
+          <Stack.Screen name="App" component={AppTabs} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthFeature} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default Routes; 
+export default Routes;

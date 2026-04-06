@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import styles from './styles';
+import { useAuthStore } from '../../store/authStore';
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const signIn = useAuthStore((state) => state.signIn);
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -14,7 +16,7 @@ const LoginScreen = ({ navigation }: any) => {
     }
     // Aqui você pode integrar com a API futuramente
     setError('');
-    alert('Login simulado!');
+    signIn();
   };
 
   return (
